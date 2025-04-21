@@ -108,6 +108,26 @@ void TetrisBoard::paintEvent(QPaintEvent *) {
     
     // Draw score
     drawScore(painter);
+
+    // Draw combo if active
+    if (currentCombo.remainingTicks > 0) {
+        painter.setPen(currentCombo.color);
+        QFont comboFont = painter.font();
+        comboFont.setPointSize(32);
+        comboFont.setBold(true);
+        painter.setFont(comboFont);
+        
+        // Make it fade out
+        int alpha = (255 * currentCombo.remainingTicks) / COMBO_DISPLAY_TIME;
+        currentCombo.color.setAlpha(alpha);
+        
+        // Draw with slight offset for each frame to make it "float" up
+        QPoint drawPos = currentCombo.position;
+        drawPos.setY(drawPos.y() - (COMBO_DISPLAY_TIME - currentCombo.remainingTicks));
+        
+        painter.drawText(drawPos, currentCombo.text);
+        currentCombo.remainingTicks--;
+    }
 }
 
 void TetrisBoard::keyPressEvent(QKeyEvent *event) {
@@ -208,14 +228,36 @@ void TetrisBoard::clearLines() {
 }
 
 void TetrisBoard::updateScore(int lines) {
-    // Classic NES Tetris scoring system:
-    // 1 line = 40, 2 lines = 100, 3 lines = 300, 4 lines = 1200
     static const int POINTS[] = {0, 40, 100, 300, 1200};
     score += POINTS[lines] * level;
     linesCleared += lines;
-    level = 1 + (linesCleared / 10);  // Level up every 10 lines
-    
-    // Speed increases with level, but never faster than 100ms per tick
+    level = 1 + (linesCleared / 10);
+
+    // Set combo display for multiple lines
+    if (lines > 1) {
+        QString comboText = QString("x%1").arg(lines);
+        QColor comboColor;
+        switch(lines) {
+            case 2:
+                comboColor = Qt::yellow;
+                break;
+            case 3:
+                comboColor = Qt::cyan;
+                break;
+            case 4:
+                comboColor = QColor(255, 50, 50);  // Bright red
+                break;
+        }
+        
+        // Position in center of board
+        QPoint comboPos(
+            (BOARD_WIDTH * BLOCK_SIZE) / 2,
+            (BOARD_HEIGHT * BLOCK_SIZE) / 2
+        );
+        
+        currentCombo = {comboText, comboColor, COMBO_DISPLAY_TIME, comboPos};
+    }
+
     timer->setInterval(std::max(100, 500 - (level-1) * 20));
 }
 
@@ -341,6 +383,7 @@ void TetrisBoard::startNewGame() {
     hasSavedPiece = false;
     timer->start(500);
     initPiece(rand() % PIECES.size());
+    currentCombo.remainingTicks = 0;  // Reset any active combo display
     update();
 }
 

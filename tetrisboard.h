@@ -7,6 +7,7 @@
 #include <QPainter>
 #include <vector>
 #include <QColor>
+#include <QString>
 
 class TetrisBoard : public QWidget {
     Q_OBJECT
@@ -65,6 +66,16 @@ private:
 
     void hardDrop();
     void swapPiece();
+
+    struct ComboDisplay {
+        QString text;
+        QColor color;
+        int remainingTicks;  // How many more frames to show
+        QPoint position;     // Where to show on screen
+    };
+    
+    ComboDisplay currentCombo;
+    static const int COMBO_DISPLAY_TIME = 30;  // Frames to show combo
 };
 
 #endif // TETRISBOARD_H

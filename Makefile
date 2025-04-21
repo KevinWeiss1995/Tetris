@@ -1277,6 +1277,8 @@ moc_tetrisboard.cpp: tetrisboard.h \
 		/opt/homebrew/lib/QtGui.framework/Headers/qpainter.h \
 		/opt/homebrew/lib/QtGui.framework/Headers/QColor \
 		/opt/homebrew/lib/QtGui.framework/Headers/qcolor.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QString \
+		/opt/homebrew/lib/QtCore.framework/Headers/qstring.h \
 		moc_predefs.h \
 		/opt/homebrew/share/qt/libexec/moc
 	/opt/homebrew/share/qt/libexec/moc $(DEFINES) --include /Users/kweiss/Qt_projects/tetris/moc_predefs.h -I/opt/homebrew/share/qt/mkspecs/macx-clang -I/Users/kweiss/Qt_projects/tetris -I/opt/homebrew/lib/QtWidgets.framework/Headers -I/opt/homebrew/lib/QtGui.framework/Headers -I/opt/homebrew/lib/QtCore.framework/Headers -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/usr/include -F/opt/homebrew/lib tetrisboard.h -o moc_tetrisboard.cpp
@@ -1311,7 +1313,9 @@ main.o: main.cpp /opt/homebrew/lib/QtWidgets.framework/Headers/QApplication \
 		/opt/homebrew/lib/QtGui.framework/Headers/QPainter \
 		/opt/homebrew/lib/QtGui.framework/Headers/qpainter.h \
 		/opt/homebrew/lib/QtGui.framework/Headers/QColor \
-		/opt/homebrew/lib/QtGui.framework/Headers/qcolor.h
+		/opt/homebrew/lib/QtGui.framework/Headers/qcolor.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QString \
+		/opt/homebrew/lib/QtCore.framework/Headers/qstring.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 tetrisboard.o: tetrisboard.cpp tetrisboard.h \
@@ -1324,7 +1328,9 @@ tetrisboard.o: tetrisboard.cpp tetrisboard.h \
 		/opt/homebrew/lib/QtGui.framework/Headers/QPainter \
 		/opt/homebrew/lib/QtGui.framework/Headers/qpainter.h \
 		/opt/homebrew/lib/QtGui.framework/Headers/QColor \
-		/opt/homebrew/lib/QtGui.framework/Headers/qcolor.h
+		/opt/homebrew/lib/QtGui.framework/Headers/qcolor.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QString \
+		/opt/homebrew/lib/QtCore.framework/Headers/qstring.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tetrisboard.o tetrisboard.cpp
 
 moc_tetrisboard.o: moc_tetrisboard.cpp 
