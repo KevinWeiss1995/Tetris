@@ -111,15 +111,15 @@ void TetrisBoard::paintEvent(QPaintEvent *) {
 
     // Draw combo if active
     if (currentCombo.remainingTicks > 0) {
-        painter.setPen(currentCombo.color);
         QFont comboFont = painter.font();
         comboFont.setPointSize(32);
         comboFont.setBold(true);
         painter.setFont(comboFont);
         
-        // Make it fade out
-        int alpha = (255 * currentCombo.remainingTicks) / COMBO_DISPLAY_TIME;
-        currentCombo.color.setAlpha(alpha);
+        // Create a new color with alpha
+        QColor fadeColor = currentCombo.color;
+        fadeColor.setAlpha(qMax(0, (255 * currentCombo.remainingTicks) / COMBO_DISPLAY_TIME));
+        painter.setPen(fadeColor);
         
         // Draw with slight offset for each frame to make it "float" up
         QPoint drawPos = currentCombo.position;
